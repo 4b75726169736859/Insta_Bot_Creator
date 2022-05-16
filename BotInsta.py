@@ -11,7 +11,7 @@ from proxylist import ProxyList
 import colorful as cf
 
 emailDisabled = "britted.com"
-numberAccount = input("Combien de compte voulez vous créé ? ")
+numberAccount = input("How many accounts do you want to create ? ")
 compteur = 0
 intNumberAccount = int(numberAccount)
 tableMail = []
@@ -109,7 +109,7 @@ while compteur < intNumberAccount :
             driver.find_element_by_name("emailOrPhone").send_keys(emailJettable)
             driver.find_element_by_name("fullName").send_keys(fakeName)
             driver.find_element_by_name("username").send_keys(fakeUsername)
-            driver.find_element_by_name("password").send_keys("IsayevN2")
+            driver.find_element_by_name("password").send_keys("456password123")
         except NoSuchElementException :
             driver.quit()
             continue
@@ -148,7 +148,7 @@ while compteur < intNumberAccount :
         while 'Welc' in codeDeVerification :
             badTime = badTime + 1
             if badTime == 30:
-                print(cf.red('\n----- Error : Email non recu -----'))
+                print(cf.red('\n----- Error : Email not received -----'))
                 driver.quit()
                 continue
             time.sleep(1)
@@ -165,18 +165,18 @@ while compteur < intNumberAccount :
         #Gestion des erreurs
         try:
             message = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[4]/div').text
-            if 'Désolé ! Un problème nous empêche actuellement de vérifier votre code' in message :
-                print(cf.red("\n----- Error : Impossible de verifier le code -----"))
-            elif 'L’adresse IP que vous utilisez a été signalée' in message :
-                print(cf.red("\n----- Error : Proxy detecter -----"))
-            elif 'Impossible de créer votre compte. Veu' in message :
-                print(cf.red("\n----- Error : Impossible de crée le compte -----"))
+            if 'Sorry ! A problem currently prevents us from verifying your code' in message :
+                print(cf.red("\n----- Error : Unable to verify code -----"))
+            elif 'The IP address you are using has been reported' in message :
+                print(cf.red("\n----- Error : Proxy detect -----"))
+            elif 'Unable to create your account.' in message :
+                print(cf.red("\n----- Error : Unable to create account -----"))
         except NoSuchElementException:
             try:
                 driver.find_element_by_xpath('/html/body/div[1]/section/main/div[2]/div/div/div[1]/div[1]/h2')
-                print(cf.red('\n----- Error : Demande numero de telephone -----'))
+                print(cf.red('\n----- Error : Request phone number -----'))
             except NoSuchElementException :
-                print(cf.green('\nCompte '+fakeUsername+' crée avec succes !'))
+                print(cf.green('\nAccount '+fakeUsername+' successfully created !'))
                 tableMail.append(emailJettable)
                 tableProxy.append(PROXY)
                 tableUsername.append(fakeUsername)
@@ -198,4 +198,4 @@ while compteur < intNumberAccount :
     #Quitter le navigateur
     driver.quit()
 
-print(cf.green('\n\nVos '+ numberAccount +' compte(s) on bien été créé !'))
+print(cf.green('\n\nYour '+ numberAccount +' account(s) successfully created !'))
